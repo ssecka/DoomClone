@@ -18,6 +18,7 @@ public class Shooting : MonoBehaviour
     private bool shooting, readyToShoot, reloading;
     public Rigidbody playerRb;
     public float recoilForce;
+    public int bulletDamage;
 
     [Header("References")] 
     public Camera camera;
@@ -102,6 +103,7 @@ public class Shooting : MonoBehaviour
         //Add Force
         currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
         //currentBullet.GetComponent<Rigidbody>().AddForce(camera.transform.up * upwardForce, ForceMode.Impulse);
+        
         
         
         bulletsLeft--;

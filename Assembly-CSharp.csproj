@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Grappling.cs" />
+     <Compile Include="Assets\AIBehaviour.cs" />
      <Compile Include="Assets\BigRookGames\_AssetPacks\Stylized Weapon Pack\M4 Scoped Assault Rifle\Scripts\GunfireController.cs" />
      <Compile Include="Assets\PlayerMovementAdvanced.cs" />
      <Compile Include="Assets\Climbing.cs" />
@@ -94,6 +95,7 @@
      <Folder Include="Assets\BigRookGames\_AssetPacks\Stylized Weapon Pack\M4 Scoped Assault Rifle\Audio" />
      <Folder Include="Assets\MASH Virtual" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <Folder Include="Assets\Scenes\SampleScene" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
      <Folder Include="Assets\Scenes" />
