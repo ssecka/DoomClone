@@ -350,7 +350,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
         ResetRestrictions();
         
         GetComponent<Grappling>().StopGrapple();
-
     }
 
     public Vector3 CalculateJumpVelocity(Vector3 startPoint, Vector3 endPoint, float trajectoryHeight)

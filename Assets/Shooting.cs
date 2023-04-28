@@ -16,9 +16,6 @@ public class Shooting : MonoBehaviour
     public int magazineSize, bulletsPerTap;
     private int bulletsLeft, bulletsShot;
     private bool shooting, readyToShoot, reloading;
-    public Rigidbody playerRb;
-    public float recoilForce;
-    public int bulletDamage;
 
     [Header("References")] 
     public Camera camera;
@@ -102,19 +99,11 @@ public class Shooting : MonoBehaviour
         
         //Add Force
         currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-        //currentBullet.GetComponent<Rigidbody>().AddForce(camera.transform.up * upwardForce, ForceMode.Impulse);
-        
-        
-        
+
         bulletsLeft--;
-        bulletsShot++; 
-        
-        
-            Invoke("ResetShot", timeBetweenShooting);
-            
-            //Add recoil to player (should only be called once)
-            //Shooting with recoil results in grappling hook missing the target 
-            //playerRb.AddForce(-directionWithSpread.normalized * recoilForce, ForceMode.Impulse);
+        bulletsShot++;
+
+        Invoke("ResetShot", timeBetweenShooting);
     }
 
     private void ResetShot()

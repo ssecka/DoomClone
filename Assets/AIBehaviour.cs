@@ -7,10 +7,14 @@ using Random = UnityEngine.Random;
 
 public class AIBehaviour : MonoBehaviour
 {
-    [Header("References")] public NavMeshAgent agent;
+    [Header("References")] 
+    public NavMeshAgent agent;
     public Transform player;
+    public Animator anim;
+    public Transform GunTip;
 
-    [Header("AI")] public LayerMask whatIsPlayer, whatIsGround;
+    [Header("AI")] 
+    public LayerMask whatIsPlayer, whatIsGround;
     public Vector3 walkPoint;
     private bool walkPointSet;
     public float walkPointRange;
@@ -20,6 +24,7 @@ public class AIBehaviour : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
     public GameObject bullet;
     public float health;
+    public int damageToAI;
 
 
     private void Awake()
@@ -34,12 +39,12 @@ public class AIBehaviour : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
+        if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
     }
 
-    private void Patroling()
+    private void Patrolling()
     {
         if (!walkPointSet) SearchWalkPoint();
 
@@ -48,6 +53,10 @@ public class AIBehaviour : MonoBehaviour
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
+        //Animations
+        anim.SetBool("Walking", true);
+        anim.SetBool("Shooting", false);
+        
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
@@ -67,6 +76,8 @@ public class AIBehaviour : MonoBehaviour
 
     private void ChasePlayer()
     {
+        anim.SetBool("Shooting", false);
+        anim.SetBool("Walking", true);
         agent.SetDestination(player.position);
     }
 
@@ -76,14 +87,15 @@ public class AIBehaviour : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
+        anim.SetBool("Shooting", true);
+        anim.SetBool("Walking", false);
 
         if (!alreadyAttacked)
         {
-            ///Attack code here
-            Rigidbody rb = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+            Rigidbody rb = Instantiate(bullet, GunTip.transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * 40f, ForceMode.Impulse);
             rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-            ///End of attack code
+            
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -94,16 +106,30 @@ public class AIBehaviour : MonoBehaviour
     {
         alreadyAttacked = false;
     }
+    
+    private void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody otherRigidbody = collision.collider.GetComponent<Rigidbody>();
+        if (otherRigidbody != null)
+        {
+            TakeDamage(damageToAI);
+        }
+    }
 
     public void TakeDamage(int damage)
     {
+        anim.SetBool("Hit", true);
+        anim.SetBool("Walking", false);
+        anim.SetBool("Shooting", false);
+        
         health -= damage;
 
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (health <= 0) Invoke(nameof(DestroyEnemy), 2f);
     }
 
     private void DestroyEnemy()
     {
+        anim.SetBool("Dying", true);
         Destroy(gameObject);
     }
 }

@@ -11,6 +11,7 @@ public class Trampoline : MonoBehaviour
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb != null)
         {
+            Debug.Log("Trampoline hit");
             rb.AddForce(transform.up * bounceForce, ForceMode.Impulse);
         }
     }
