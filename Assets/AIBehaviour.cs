@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -25,6 +26,7 @@ public class AIBehaviour : MonoBehaviour
     public GameObject bullet;
     public float health;
     public int damageToAI;
+    private bool AIDied = false;
 
 
     private void Awake()
@@ -41,7 +43,7 @@ public class AIBehaviour : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        if (playerInAttackRange && playerInSightRange && !AIDied) AttackPlayer();
     }
 
     private void Patrolling()
@@ -52,10 +54,11 @@ public class AIBehaviour : MonoBehaviour
             agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        //Animations
-        anim.SetBool("Walking", true);
+        
         anim.SetBool("Shooting", false);
+        anim.SetBool("Running", false);
+        anim.SetBool("Hit", false);
+        anim.SetBool("Walking", true);
         
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
@@ -76,8 +79,11 @@ public class AIBehaviour : MonoBehaviour
 
     private void ChasePlayer()
     {
+        anim.SetBool("Walking", false);
         anim.SetBool("Shooting", false);
-        anim.SetBool("Walking", true);
+        anim.SetBool("Hit", false);
+        anim.SetBool("Running", true);
+        
         agent.SetDestination(player.position);
     }
 
@@ -87,8 +93,11 @@ public class AIBehaviour : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
-        anim.SetBool("Shooting", true);
+        
         anim.SetBool("Walking", false);
+        anim.SetBool("Running", false);
+        anim.SetBool("Hit", false);
+        anim.SetBool("Shooting", true);
 
         if (!alreadyAttacked)
         {
@@ -109,6 +118,7 @@ public class AIBehaviour : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
+        
         Rigidbody otherRigidbody = collision.collider.GetComponent<Rigidbody>();
         if (otherRigidbody != null)
         {
@@ -118,18 +128,18 @@ public class AIBehaviour : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        anim.SetBool("Hit", true);
-        anim.SetBool("Walking", false);
-        anim.SetBool("Shooting", false);
-        
         health -= damage;
-
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 2f);
+        if (health <= 0)
+        {
+            anim.Play("Dying");
+            AIDied = true;
+            Invoke(nameof(DestroyEnemy), 1.95f);
+        }
+        
     }
 
     private void DestroyEnemy()
     {
-        anim.SetBool("Dying", true);
         Destroy(gameObject);
     }
 }

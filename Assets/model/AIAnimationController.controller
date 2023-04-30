@@ -76,7 +76,7 @@ AnimatorStateMachine:
     m_Position: {x: 130, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2917331547027338640}
-    m_Position: {x: 80, y: 570, z: 0}
+    m_Position: {x: -40, y: 630, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1857702580600965792}
     m_Position: {x: 310, y: 480, z: 0}
@@ -87,7 +87,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 360, y: 640, z: 0}
+  m_ExitPosition: {x: 310, y: 730, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 7209043017510779802}
 --- !u!1101 &-3684824379220922922
@@ -136,7 +136,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: -203655887218126122, guid: 28a97c832bfa6f844bd02b7f99fc448b, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -227,7 +227,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 0}
   - m_Name: Walking
     m_Type: 4
