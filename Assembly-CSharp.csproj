@@ -41,18 +41,18 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\GameManager.cs" />
      <Compile Include="Assets\Grappling.cs" />
      <Compile Include="Assets\AIBehaviour.cs" />
      <Compile Include="Assets\PlayerMovementAdvanced.cs" />
      <Compile Include="Assets\Climbing.cs" />
      <Compile Include="Assets\Trampoline.cs" />
      <Compile Include="Assets\Dashing.cs" />
+     <Compile Include="Assets\Health.cs" />
      <Compile Include="Assets\PlayerCam.cs" />
+     <Compile Include="Assets\MobilityArts\SciFiHandGun\Scripts\OrbitAroundTarget.cs" />
      <Compile Include="Assets\Shooting.cs" />
      <Compile Include="Assets\CameraPos.cs" />
-     <Compile Include="Assets\Health.cs" />
-     <Compile Include="Assets\GameManager.cs" />
-     <Compile Include="Assets\MobilityArts\SciFiHandGun\Scripts\OrbitAroundTarget.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\ModelNEW" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -27,6 +27,7 @@ public class AIBehaviour : MonoBehaviour
     public float health;
     public int damageToAI;
     private bool AIDied = false;
+   
 
 
     private void Awake()
@@ -43,7 +44,7 @@ public class AIBehaviour : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange && !AIDied) AttackPlayer();
+        if (playerInAttackRange && playerInSightRange && !AIDied ) AttackPlayer();
     }
 
     private void Patrolling()
@@ -57,11 +58,10 @@ public class AIBehaviour : MonoBehaviour
         
         anim.SetBool("Shooting", false);
         anim.SetBool("Running", false);
-        anim.SetBool("Hit", false);
         anim.SetBool("Walking", true);
         
         //Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 1f )
             walkPointSet = false;
     }
 
@@ -72,8 +72,9 @@ public class AIBehaviour : MonoBehaviour
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint = new Vector3(randomX, transform.position.y,randomZ);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        //if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
             walkPointSet = true;
     }
 
@@ -81,7 +82,6 @@ public class AIBehaviour : MonoBehaviour
     {
         anim.SetBool("Walking", false);
         anim.SetBool("Shooting", false);
-        anim.SetBool("Hit", false);
         anim.SetBool("Running", true);
         
         agent.SetDestination(player.position);
@@ -96,14 +96,13 @@ public class AIBehaviour : MonoBehaviour
         
         anim.SetBool("Walking", false);
         anim.SetBool("Running", false);
-        anim.SetBool("Hit", false);
         anim.SetBool("Shooting", true);
 
         if (!alreadyAttacked)
         {
             Rigidbody rb = Instantiate(bullet, GunTip.transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 40f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            rb.AddForce(transform.up * 2f, ForceMode.Impulse);
             
 
             alreadyAttacked = true;
@@ -135,7 +134,11 @@ public class AIBehaviour : MonoBehaviour
             AIDied = true;
             Invoke(nameof(DestroyEnemy), 1.95f);
         }
-        
+        else 
+        {
+            Debug.Log("Damaged");
+            anim.Play("Hit Reaction");
+        }
     }
 
     private void DestroyEnemy()

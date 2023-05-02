@@ -102,6 +102,7 @@ public class Shooting : MonoBehaviour
 
         bulletsLeft--;
         bulletsShot++;
+        
 
         Invoke("ResetShot", timeBetweenShooting);
     }

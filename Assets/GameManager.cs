@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < enemiesPerWave; i++)
             {
-                Vector3 randomPosition = new Vector3(Random.Range(-50f, 50f), 0, Random.Range(-10f, 10f));
+                Vector3 randomPosition = new Vector3(Random.Range(-50f, 50f), Random.Range(0f, 10f), Random.Range(-10f, 10f));
                 Instantiate(AI, randomPosition, Quaternion.identity);
             }
             yield return new WaitForSeconds(waveDelay);
